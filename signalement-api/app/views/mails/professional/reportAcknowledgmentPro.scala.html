@@ -1,0 +1,79 @@
+@import models.report.ReportResponse
+@import models.report.ReportResponseType
+@import utils.FrontRoute
+
+@import models.report.ReportResponse
+@import models.report.ReportResponseType
+@(reportResponse: ReportResponse, user: User)(implicit frontRoute: FrontRoute)
+
+@views.html.mails.layout(s"Votre réponse au signalement") {
+    <p>
+        Bonjour @user.firstName @user.lastName,
+    </p>
+    @reportResponse.responseType match {
+        case ReportResponseType.ACCEPTED => {
+            <p>Vous venez de faire une promesse d’action et nous vous en félicitons !</p>
+
+            <p>Nous en avons informé le consommateur qui visualisera votre réponse :</p>
+
+            <p>
+                "@reportResponse.consumerDetails"
+            </p>
+
+            <p>
+                Votre coopération est également visible par la DGCCRF et s’inscrit dans la relation de transparence
+                et d’efficacité avec l’administration.
+            </p>
+
+        }
+        case ReportResponseType.REJECTED => {
+            <p>
+                Vous estimez que le signalement est infondé.
+            </p>
+
+            <p>
+                Nous avons informé le consommateur ; il visualisera votre réponse :
+            </p>
+
+            <p>
+                "@reportResponse.consumerDetails"
+            </p>
+
+            <p>
+                Nous vous remercions d'avoir traité le signalement !
+            </p>
+
+        }
+        case ReportResponseType.NOT_CONCERNED => {
+            <p>
+                Vous estimez que le signalement ne concerne pas votre entreprise.
+            </p>
+
+            <p>
+                Nous avons informé le consommateur ; il visualisera votre réponse :
+            </p>
+
+            <p>
+                "@reportResponse.consumerDetails"
+            </p>
+
+            <p>
+                Nous vous remercions d'avoir traité le signalement !
+            </p>
+
+        }
+    }
+
+    <p>
+        Par ailleurs, nous vous rappelons que seuls les constats effectués par les enquêteurs de la DGCCRF
+        peuvent donner suite à des poursuites.
+    </p>
+
+    <p>Cordialement,</p>
+
+    <p>
+        <i>L'équipe SignalConso</i>
+    </p>
+
+    @views.html.fragments.linkNotificationsManager()
+}

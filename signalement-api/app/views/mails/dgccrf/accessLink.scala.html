@@ -1,0 +1,34 @@
+@import java.net.URI
+@import utils.FrontRoute
+@(invitationUrl: URI)
+
+@views.html.mails.layout("Accédez à SignalConso") {
+    <p>
+        Bonjour,
+    </p>
+
+    <p>
+        Vous avez été invité à accéder à l'interface DGCCRF sur SignalConso.
+        <br/>Afin de procéder à l'activation de votre compte, veuillez suivre le lien sécurisé ci-dessous :
+    </p>
+
+    <p style="text-align: center;">
+        <a href="@invitationUrl">Finaliser mon inscription</a>
+    </p>
+
+    <p>
+        Si le lien ne fonctionne pas, merci de :
+        <ul>
+            <li>copier/coller le lien directement dans votre navigateur</li>
+            <li>vérifier que vous n'êtes pas en navigation privée</li>
+            <li>si possible, tester avec un autre navigateur</li>
+            <li>enfin, réessayer sans le VPN (si vous l'utilisez). Dans ce cas, merci de revenir vers nous pour nous le signaler.</li>
+        </ul>
+    </p>
+
+    <p>Cordialement,</p>
+
+    <p>
+        <i>L'équipe SignalConso</i>
+    </p>
+}

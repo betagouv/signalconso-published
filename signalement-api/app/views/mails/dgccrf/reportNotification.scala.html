@@ -1,0 +1,190 @@
+@import models.report.Report
+@import models.report.ReportFile
+@import java.time.LocalDate
+@import utils.FrontRoute
+@import models.report.Report
+@import utils.EmailAddress
+@(subscription: Subscription, reportsWithFile: Seq[(Report,List[ReportFile])], startDate: LocalDate)(implicit frontRoute: FrontRoute, contactAddress: EmailAddress)
+
+@views.html.mails.layout("Nouveaux signalements") {
+    <p>
+        Depuis le @startDate.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy")),
+        @reportsWithFile.length match {
+            case 0 => { aucun nouveau signalement n'a été déposé }
+            case 1 => { 1 nouveau signalement a été déposé }
+            case n => {
+                @n nouveaux signalements ont été déposés
+            }
+        }
+        sur SignalConso pour les critères suivants :
+        <ul>
+            <li>
+                Catégories :
+                @if(subscription.categories.nonEmpty) {
+                    <ul>
+                        @subscription.categories.map { category =>
+                            <li>
+                                @category.entryName
+                            </li>
+                        }
+                    </ul>
+                } else {
+                    Toutes
+                }
+            </li>
+            <li>
+                Départements :
+                @if(subscription.departments.nonEmpty) {
+                    @subscription.departments.mkString(" - ")
+                } else {
+                    Tous
+                }
+            </li>
+            @if(subscription.sirets.nonEmpty) {
+                <li>
+                    Numéros SIRET :
+                    <ul>
+                        @subscription.sirets.map { siret =>
+                            <li>
+                                @siret.value
+                            </li>
+                        }
+                    </ul>
+                </li>
+            }
+            @if(subscription.withTags.nonEmpty) {
+                <li>
+                    Avec les tags :
+                    <ul>
+                        @subscription.withTags.map { tag =>
+                            <li>
+                                @tag
+                            </li>
+                        }
+                    </ul>
+                </li>
+            }
+            @if(subscription.withoutTags.nonEmpty) {
+                <li>
+                    Sans les tags :
+                    <ul>
+                        @subscription.withoutTags.map { tag =>
+                            <li>
+                                @tag
+                            </li>
+                        }
+                    </ul>
+                </li>
+            }
+            @if(subscription.countries.nonEmpty) {
+                <li>
+                    Pays :
+                    <ul>
+                        @subscription.countries.map { country =>
+                            <li>
+                                @country.name
+                            </li>
+                        }
+                    </ul>
+                </li>
+            }
+        </ul>
+    </p>
+
+    @if(reportsWithFile.nonEmpty) {
+        <div style="padding-bottom: 0.5em">
+            <div style="font-weight: bold;
+                text-align: center;
+                border-bottom: 2px solid #898989;
+                padding-bottom: 20px;
+                margin-bottom: 20px">
+            @reportsWithFile.length match {
+                case 1 => { Aperçu du signalement }
+                case n => { Aperçu des signalements }
+            }
+            </div>
+
+            @reportsWithFile.sortBy(_._1.creationDate).reverse.zipWithIndex.map { case( (report,files), index) =>
+                @if(index < 20) {
+                    <div style="border-bottom: 2px solid #898989;
+                        padding-top: 20px;
+                        padding-bottom: 20px">
+                        <b>Problème</b>
+                        <br/>
+                        @report.category
+                        <br />
+                        @report.subcategories.map { subcategory =>
+                            @subcategory
+                            <br />
+                        }
+                        <br />
+                        <b>Description</b> (<a href="@frontRoute.dashboard.subscriptionDGCCRFReport(report.id)">Voir plus de détails sur ce signalement </a>)
+                        <br/>
+                        @report.details.map { detailInputValue =>
+                            @Html(detailInputValue.label) @Html(detailInputValue.value)
+                            <br/>
+                        }
+
+                        <br />
+                        <b>
+                            Entreprise @report.companySiret.getOrElse("")  @report.companyId.map{r =>
+                            (<a href="@frontRoute.dashboard.Pro.subscriptionDGCCRFCompanySummary(r)">Voir la fiche entreprise</a>)
+                            }.getOrElse("")
+                        </b>
+                        <p style="text-align: center;">
+                            @views.html.fragments.address(report.companyName, report.companyAddress)
+                        </p>
+                        @if(report.websiteURL.websiteURL.isDefined) {
+                        <b>Site web</b>
+                        <p style="text-align: center;">
+                            Site internet : @report.shortURL().get
+                        </p>
+                        }
+                        @if(report.vendor.isDefined) {
+                        <b>Nom du vendeur</b>
+                        <p style="text-align: center;">
+                            Nom du vendeur : @report.vendor.get
+                        </p>
+                        }
+                        @if(report.tags.nonEmpty) {
+                        <b>Tags:</b>
+                        <p style="text-align: center;">
+                            @report.tags.mkString(", ")
+                        </p>
+                        }
+                        @if(files.nonEmpty) {
+                            <b>Pièces jointes ( <a href="@frontRoute.dashboard.subscriptionDGCCRFReport(report.id)">voir les pièces jointes</a>)  </b>
+                            <p>
+                                <ul>
+                                @files.map{ f =>
+                                <li>@f.filename</li>
+                                }
+                                </ul>
+                            </p>
+                        }
+
+                    </div>
+                }
+            }
+            @if(reportsWithFile.length > 20) {
+                [...]
+            }
+        </div>
+    }
+
+    <p>
+        Pour consulter l'intégralité des signalements, notamment les pièces jointes :
+    </p>
+    <ul>
+        <li>si vous possédez un compte sur SignalConso, connectez-vous sur <a href="@frontRoute.dashboard.login">@frontRoute.dashboard.login</a></li>
+        <li>sinon, vous pouvez demander la création d'un compte en envoyant un mail avec vos nom, prénom et service à l'adresse <a href="mailto:@contactAddress">@contactAddress</a></li>
+    </ul>
+
+    <p>
+        <i>L'équipe SignalConso</i>
+    </p>
+
+    <p style="font-size: 12px; font-color:#8393a7; padding-top: 2em">
+        Ceci est un mail automatique. Si vous ne souhaitez plus le recevoir, merci de nous l'indiquer par mail à l'adresse <a href="mailto:@contactAddress">@contactAddress</a>
+    </p>
+}

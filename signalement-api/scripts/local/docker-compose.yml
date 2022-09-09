@@ -1,0 +1,13 @@
+version: "3.9"
+services:
+  postgres:
+    image: "postgres:12"
+    ports:
+      # exposed on 5432 by default, but you can override with the env variable
+      - "${TEST_PGPORT:-5432}:5432"
+    volumes:
+      - .:/docker-entrypoint-initdb.d
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: "trust"
+      POSTGRES_USER: ${USER}
+      POSTGRES_MULTIPLE_DATABASES: signalconso,company,test_signalconso,test_company

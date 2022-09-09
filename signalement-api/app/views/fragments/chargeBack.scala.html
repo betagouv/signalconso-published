@@ -1,0 +1,12 @@
+@import models.report.Report
+@(report: Report)
+
+@if(report.isContractualDispute() && report.websiteURL.websiteURL.isDefined) {
+    <p>
+        Vous avez payé avec votre carte bancaire ?
+    </p>
+    <p>
+        Grâce à la procédure de charge-back vous pouvez être remboursé gratuitement suite à un achat effectué en ligne :
+        <a href="https://www.economie.gouv.fr/particuliers/procedure-chargeback">https://www.economie.gouv.fr/particuliers/procedure-chargeback</a>
+    </p>
+}

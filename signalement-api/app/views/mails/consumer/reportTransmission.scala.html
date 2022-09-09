@@ -1,0 +1,51 @@
+@import models.report.Report
+
+@(report: Report)
+
+@views.html.mails.layout("L'entreprise a pris connaissance de votre signalement") {
+    <p>
+        Bonjour @report.firstName @report.lastName,
+    </p>
+
+    <p>
+        Vous avez fait un signalement le <b>@report.creationDate.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy"))</b> concernant une entreprise :
+    </p>
+    @if(report.companySiret.isDefined) {
+        <p style="text-align: center;">
+            SIRET : <b>@report.companySiret.get</b>
+        </p>
+    }
+    <p style="text-align: center;">
+        <b>
+            @views.html.fragments.address(report.companyName, report.companyAddress)
+        </b>
+    </p>
+
+    <p>
+        L'entreprise a pris connaissance de votre signalement aujourd'hui.
+    </p>
+
+    <p>
+        Si elle propose une solution ou corrige le problème, vous recevrez un email.
+    </p>
+
+    <p>
+        Pour information, les enquêteurs de la répression des fraudes ont également bien reçu votre signalement.
+    </p>
+
+    <p>À bientôt sur SignalConso !</p>
+
+    <p>
+        <i>L'équipe SignalConso</i>
+    </p>
+
+    <div style="padding-bottom: 0.5em">
+        <div style="font-weight: bold;
+            text-align: center;
+            border-top: 1px solid #D3D3D3;
+            border-bottom: 1px solid #D3D3D3;
+            padding: 10px 0;
+            margin: 10px">Comprendre SignalConso</div>
+        <img src="cid:schemaSignalConso-Etape3" style="max-width: 100%"/>
+    </div>
+}

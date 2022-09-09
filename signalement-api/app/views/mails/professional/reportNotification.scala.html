@@ -1,0 +1,51 @@
+@import models.report._
+@import utils.FrontRoute
+@import models.report.Report
+
+@(report: Report)(implicit frontRoute: FrontRoute)
+
+@views.html.mails.layout(s"Nouveau signalement") {
+    <p>
+        Bonjour,
+    </p>
+
+    <p>
+        Nous avons reçu un nouveau signalement le @report.creationDate.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy")) concernant votre entreprise :
+    </p>
+
+    <p style="text-align: center;">
+        @views.html.fragments.address(report.companyName, report.companyAddress)
+    </p>
+
+    <p>
+        SignalConso a pour objectif de faire baisser les anomalies en intégrant davantage de transparence dans le traitement des plaintes.
+        Vous avez la possibilité d’indiquer aux enquêteurs de la DGCCRF <b>les mesures que vous avez / allez mettre en place pour solutionner le problème.</b>
+        Dans la même logique de transparence, votre réponse sera également transmise au consommateur.
+    </p>
+
+    <p>
+        Si vous estimez que ce signalement est infondé, nous vous invitons à l’indiquer également.
+    </p>
+
+    <p>
+        Pour consulter vos signalements, il vous suffit de vous connecter sur votre <a href="@frontRoute.dashboard.login">Espace Professionnel</a>.
+    </p>
+
+    <p>
+        Si vous avez oublié votre mot de passe, vous pouvez le réinitialiser directement depuis la page de connexion.
+    </p>
+
+    <p>
+        Ce nouveau service public est facultatif et gratuit.
+        À travers SignalConso, notre objectif est d’établir un rapport de confiance et de
+        transparence entre les consommateurs, les professionnels et les services de la DGCCRF.
+    </p>
+
+    <p>Cordialement,</p>
+
+    <p>
+        <i>L'équipe SignalConso</i>
+    </p>
+
+    @views.html.fragments.linkNotificationsManager()
+}

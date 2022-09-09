@@ -1,0 +1,59 @@
+@()
+
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <title>Description de l'API SignalConso</title>
+    </head>
+    <body>
+    <table border="1" cellpadding="10" width="100%">
+        <tr>
+            <th class="test">Chemin</th>
+            <th>Méthode</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td>/api/authenticate</td>
+            <td>POST</td>
+            <td>Authentification de l'utilisateur</td>
+        </tr>
+        <tr>
+            <td>/api/reports/:uuid</td>
+            <td>GET</td>
+            <td>Récupération d'un signalement par son identifiant</td>
+        </tr>
+        <tr>
+            <td>/api/reports</td>
+            <td>GET</td>
+            <td>Récupération des signalements par page</td>
+        </tr>
+        <tr>
+            <td>/api/reports</td>
+            <td>POST</td>
+            <td>Création d'un signalement</td>
+        </tr>
+        <tr>
+            <td>/api/events/:uuidReport</td>
+            <td>GET</td>
+            <td>Récupération des évènements d'un signalement</td>
+        </tr>
+
+        <tr>
+            <td>/api/reports/stats</td>
+            <td>GET</td>
+            <td>Récupération des statistiques sur les signalements</td>
+        </tr>
+        <tr>
+            <td>/api/companies</td>
+            <td>GET</td>
+            <td>Recherche textuelle d'entreprises</td>
+        </tr>
+        <tr>
+            <td>/api/companies/suggest</td>
+            <td>GET</td>
+            <td>Recherche textuelle de suggestions d'entreprises</td>
+        </tr>
+    </table>
+    </body>
+</html>

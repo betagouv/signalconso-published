@@ -1,0 +1,173 @@
+ # Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Static pages
+GET           /api                                              controllers.StaticController.api
+
+# Statistics API
+GET           /api/stats/reports/public/count                   controllers.StatisticController.getPublicStatCount(publicStat: PublicStat)
+GET           /api/stats/reports/public/curve                   controllers.StatisticController.getPublicStatCurve(publicStat: PublicStat)
+GET           /api/stats/reports/count                          controllers.StatisticController.getReportsCount()
+GET           /api/stats/reports/curve                          controllers.StatisticController.getReportsCountCurve()
+GET           /api/stats/reports/delay/responsed                controllers.StatisticController.getDelayReportResponseInHours(companyId: Option[java.util.UUID])
+GET           /api/stats/reports/delay/read                     controllers.StatisticController.getDelayReportReadInHours(companyId: Option[java.util.UUID])
+GET           /api/stats/reports/tags                           controllers.StatisticController.getReportsTagsDistribution(companyId: Option[java.util.UUID])
+GET           /api/stats/reports/status                         controllers.StatisticController.getReportsStatusDistribution(companyId: Option[java.util.UUID])
+GET           /api/stats/reports/reviews                        controllers.StatisticController.getReportResponseReviews(companyId: Option[java.util.UUID])
+GET           /api/stats/reports/pro-totransmit                 controllers.StatisticController.getProReportToTransmitStat()
+GET           /api/stats/reports/pro-transmitted                controllers.StatisticController.getProReportTransmittedStat()
+GET           /api/stats/reports/pro-response                   controllers.StatisticController.getProReportResponseStat(responseStatusQuery: Option[List[ReportResponseType]])
+GET           /api/stats/pro-account-rate                       controllers.CompanyAccessController.proFirstActivationCount(ticks: Option[Int])
+GET           /api/stats/dgccrf-account                         controllers.StatisticController.dgccrfAccountsCurve(ticks: Option[Int])
+GET           /api/stats/dgccrf-active-account                  controllers.StatisticController.dgccrfActiveAccountsCurve(ticks: Option[Int])
+GET           /api/stats/dgccrf-subscriptions                   controllers.StatisticController.dgccrfSubscription(ticks: Option[Int])
+GET           /api/stats/dgccrf-controls                        controllers.StatisticController.dgccrfControlsCurve(ticks: Option[Int])
+GET           /api/reports/count-by-departments                 controllers.StatisticController.countByDepartments()
+
+
+# Reports list API
+GET           /api/reports                                      controllers.ReportListController.getReports()
+POST          /api/reports/extract                              controllers.ReportListController.extractReports()
+
+# Report API
+GET           /api/reports/files/:uuid/:filename                controllers.ReportFileController.downloadReportFile(uuid: ReportFileId, filename)
+DELETE        /api/reports/files/:uuid/:filename                controllers.ReportFileController.deleteReportFile(uuid: ReportFileId, filename)
+POST          /api/reports/files                                controllers.ReportFileController.uploadReportFile()
+
+GET           /api/reports/download                             controllers.ReportController.reportsAsPDF()
+GET           /api/reports/cloudword/:companyId                 controllers.ReportController.cloudWord(companyId: java.util.UUID)
+GET           /api/reports/:uuid                                controllers.ReportController.getReport(uuid: java.util.UUID)
+DELETE        /api/reports/:uuid                                controllers.ReportController.deleteReport(uuid: java.util.UUID)
+
+POST          /api/reports                                      controllers.ReportController.createReport()
+POST          /api/reports/:uuid/response                       controllers.ReportController.reportResponse(uuid: java.util.UUID)
+POST          /api/reports/:uuid/response/review                controllers.ReportConsumerReviewController.reviewOnReportResponse(uuid: java.util.UUID)
+GET           /api/reports/:uuid/response/review                controllers.ReportConsumerReviewController.getReview(uuid: java.util.UUID)
+POST          /api/reports/:uuid/company                        controllers.ReportController.updateReportCompany(uuid: java.util.UUID)
+POST          /api/reports/:uuid/consumer                       controllers.ReportController.updateReportConsumer(uuid: java.util.UUID)
+POST          /api/reports/:uuid/action                         controllers.ReportController.createReportAction(uuid: java.util.UUID)
+GET           /api/reports/:uuid/events                         controllers.EventsController.getReportEvents(uuid: java.util.UUID, eventType: Option[String])
+GET           /api/companies/:siret/events                      controllers.EventsController.getCompanyEvents(siret: SIRET, eventType: Option[String])
+
+# Report API for externals SI
+GET           /api/ext/reports/siret/:siret                     controllers.ReportToExternalController.searchReportsToExternalBySiret(siret: String)
+GET           /api/ext/reports/extract                          controllers.DataEconomieController.reportDataEcomonie()
+GET           /api/ext/reports                                  controllers.ReportToExternalController.searchReportsToExternal()
+GET           /api/ext/v2/reports                               controllers.ReportToExternalController.searchReportsToExternalV2()
+GET           /api/ext/reports/:uuid                            controllers.ReportToExternalController.getReportToExternal(uuid)
+
+# Admin API
+
+GET           /api/admin/test-email                             controllers.AdminController.getEmailCodes()
+POST          /api/admin/test-email                             controllers.AdminController.sendTestEmail(templateRef, to)
+POST          /api/admin/emails/proAckToConsumer                controllers.AdminController.sendProAckToConsumer()
+POST          /api/admin/emails/newReportToPro                  controllers.AdminController.sendNewReportToPro()
+
+# Async files API
+GET           /api/async-files                                  controllers.AsyncFileController.listAsyncFiles(kind: Option[String])
+
+# Events API
+
+# Constants API
+GET           /api/constants/countries                          controllers.ConstantController.getCountries()
+GET           /api/constants/categories                         controllers.ConstantController.getCategories()
+
+# Authentication API
+POST          /api/authenticate                                 controllers.AuthController.authenticate()
+POST          /api/authenticate/password/forgot                 controllers.AuthController.forgotPassword()
+POST          /api/authenticate/password/reset                  controllers.AuthController.resetPassword(token: java.util.UUID)
+POST          /api/account/password                             controllers.AuthController.changePassword()
+
+# Enterprises sync
+POST          /api/enterprises-sync/start-etablissement         company.EnterpriseImportController.startEtablissementFile()
+POST          /api/enterprises-sync/start-unitelegale           company.EnterpriseImportController.startUniteLegaleFile()
+POST          /api/enterprises-sync/cancel                      company.EnterpriseImportController.cancelAllFiles()
+POST          /api/enterprises-sync/cancel-etablissement        company.EnterpriseImportController.cancelEtablissementFile()
+POST          /api/enterprises-sync/cancel-unitelegale          company.EnterpriseImportController.cancelUniteLegaleFile()
+GET           /api/enterprises-sync/info                        company.EnterpriseImportController.getSyncInfo()
+
+# Accesses API
+GET           /api/accesses/connected-user                      controllers.CompanyAccessController.myCompanies()
+GET           /api/accesses/:siret                              controllers.CompanyAccessController.listAccesses(siret: String)
+GET           /api/accesses/:siret/count                        controllers.CompanyAccessController.countAccesses(siret: String)
+GET           /api/accesses/:siret/pending                      controllers.CompanyAccessController.listPendingTokens(siret: String)
+PUT           /api/accesses/:siret/:userId                      controllers.CompanyAccessController.updateAccess(siret: String, userId: java.util.UUID)
+DELETE        /api/accesses/:siret/:userId                      controllers.CompanyAccessController.removeAccess(siret: String, userId: java.util.UUID)
+GET           /api/accesses/:siret/token                        controllers.CompanyAccessController.fetchTokenInfo(siret: String, token: String)
+POST          /api/accesses/:siret/send-activation-link         controllers.CompanyAccessController.sendActivationLink(siret: String)
+POST          /api/accesses/:siret/token/accept                 controllers.CompanyAccessController.acceptToken(siret: String)
+DELETE        /api/accesses/:siret/token/:tokenId               controllers.CompanyAccessController.removePendingToken(siret: String, tokenId: java.util.UUID)
+POST          /api/accesses/grouped/invitations                 controllers.CompanyAccessController.sendGroupedInvitations()
+POST          /api/accesses/:siret/invitation                   controllers.CompanyAccessController.sendInvitation(siret: String)
+
+# Account API
+GET           /api/account                                      controllers.AccountController.fetchUser
+GET           /api/account/token                                controllers.AccountController.fetchTokenInfo(token: String)
+POST          /api/account/activation                           controllers.AccountController.activateAccount()
+POST          /api/account/dgccrf/invitation                    controllers.AccountController.sendDGCCRFInvitation()
+GET           /api/account/dgccrf/pending                       controllers.AccountController.fetchPendingDGCCRF()
+GET           /api/account/dgccrf/users                         controllers.AccountController.fetchDGCCRFUsers()
+POST          /api/account/validate-email                       controllers.AccountController.validateEmail()
+POST          /api/account/validate-email/:email                controllers.AccountController.forceValidateEmail(email : String)
+PUT           /api/account/:id                                  controllers.AccountController.edit(id: java.util.UUID)
+
+# EmailValidation API
+POST          /api/email-validation/check                       controllers.EmailValidationController.check()
+POST          /api/email-validation/validate                    controllers.EmailValidationController.validate()
+POST          /api/email-validation/check-and-validate          controllers.EmailValidationController.checkAndValidate()
+GET           /api/email-validation/search                      controllers.EmailValidationController.search()
+
+# Company details API
+POST          /api/companies                                    controllers.CompanyController.create()
+GET           /api/companies                                    controllers.CompanyController.searchRegistered()
+GET           /api/companies/connected-user                     controllers.CompanyController.visibleCompanies()
+GET           /api/companies/to-activate                        controllers.CompanyController.companiesToActivate()
+GET           /api/companies/hosts/:companyId                   controllers.CompanyController.fetchHosts(companyId: java.util.UUID)
+POST          /api/companies/activation-document                controllers.CompanyController.getActivationDocument()
+POST          /api/companies/companies-posted                   controllers.CompanyController.confirmContactByPostOnCompanyList()
+GET           /api/companies/search/:identity                   controllers.CompanyController.searchCompanyByIdentity(identity: String)
+GET           /api/companies/search-url                         controllers.CompanyController.searchCompanyByWebsite(url: String)
+GET           /api/companies/search                             controllers.CompanyController.searchCompany(q: String, postalCode: String)
+PUT           /api/companies/:id/address                        controllers.CompanyController.updateCompanyAddress(id: java.util.UUID)
+GET           /api/companies/:id/response-rate                  controllers.CompanyController.getResponseRate(id: java.util.UUID)
+POST          /api/companies/:siret/undelivered-document        controllers.CompanyController.handleUndeliveredDocument(siret)
+GET           /api/companies/:companyId                         controllers.CompanyController.searchById(companyId: java.util.UUID)
+
+# Rating API
+POST          /api/rating                                       controllers.RatingController.rate()
+
+# Subscription API
+GET           /api/subscriptions                                controllers.SubscriptionController.getSubscriptions()
+POST          /api/subscriptions                                controllers.SubscriptionController.createSubscription()
+PUT           /api/subscriptions/:subscriptionId                controllers.SubscriptionController.updateSubscription(subscriptionId: java.util.UUID)
+GET           /api/subscriptions/:subscriptionId                controllers.SubscriptionController.getSubscription(subscriptionId: java.util.UUID)
+DELETE        /api/subscriptions/:subscriptionId                controllers.SubscriptionController.removeSubscription(subscriptionId: java.util.UUID)
+
+
+# ressources
+GET           /api/resources/department-division                controllers.WebsiteController.listDepartmentDivision()
+GET           /api/resources/investigation-status               controllers.WebsiteController.listInvestigationStatus()
+GET           /api/resources/practice                           controllers.WebsiteController.listPractice()
+
+POST          /api/website-investigations                       controllers.WebsiteController.updateInvestigation()
+# Websites API
+GET           /api/websites                                     controllers.WebsiteController.fetchWithCompanies(host: Option[String], identificationStatus: Option[Seq[IdentificationStatus]], offset: Option[Long], limit: Option[Int],investigationStatus: Option[Seq[InvestigationStatus]],practice: Option[Seq[Practice]],attribution: Option[Seq[DepartmentDivision]],start: Option[OffsetDateTime],end: Option[OffsetDateTime],hasAssociation: Option[Boolean])
+GET           /api/websites/search-url                          controllers.WebsiteController.searchByHost(url: String)
+GET           /api/websites/unregistered                        controllers.WebsiteController.fetchUnregisteredHost(q: Option[String], start: Option[String], end: Option[String])
+GET           /api/websites/unregistered/extract                controllers.WebsiteController.extractUnregisteredHost(q: Option[String], start: Option[String], end: Option[String])
+PUT           /api/websites/:id/company                         controllers.WebsiteController.updateCompany(id: WebsiteId)
+PUT           /api/websites/:id/country                         controllers.WebsiteController.updateCompanyCountry(id: WebsiteId, companyCountry : String)
+PUT           /api/websites/:id                                 controllers.WebsiteController.updateWebsiteIdentificationStatus(id: WebsiteId, identificationStatus :IdentificationStatus)
+DELETE        /api/websites/:id                                 controllers.WebsiteController.remove(id: WebsiteId)
+
+# Reported phones API
+GET           /api/reported-phones                              controllers.ReportedPhoneController.fetchGrouped(q: Option[String], start: Option[String], end: Option[String])
+GET           /api/reported-phones/extract                      controllers.ReportedPhoneController.extractPhonesGroupBySIRET(q: Option[String], start: Option[String], end: Option[String])
+
+# Report notifications block list API
+GET           /api/report-blocked-notification                  controllers.ReportBlockedNotificationController.getAll()
+POST          /api/report-blocked-notification                  controllers.ReportBlockedNotificationController.create()
+POST          /api/report-blocked-notification/delete           controllers.ReportBlockedNotificationController.delete()
+
+GET           /assets/*file                                     controllers.Assets.versioned(path="/public", file: Asset)

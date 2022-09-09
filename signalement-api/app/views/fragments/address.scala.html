@@ -1,0 +1,6 @@
+@(companyName: Option[String], companyAddress: Address)
+
+@companyName.map { name => <b>@name</b> <br/> }
+@companyAddress.toArray.map { ligne =>
+    <span>@ligne</span> <br/>
+}

@@ -1,0 +1,62 @@
+body, div {
+    font-family: 'Arial', sans-serif;
+    font-size: 12px;
+}
+
+.logo-marianne {
+    float: left;
+}
+
+.logo-marianne > img {
+    height: 3.2cm;
+}
+
+.logo-sc {
+    text-align: right;
+}
+
+.logo-sc > img {
+    height: 1.5cm;
+}
+
+.references {
+    text-align: right;
+}
+
+.content {
+    margin-top: 2cm;
+}
+
+h2 {
+    color: #53657d;
+    margin-bottom: 8px;
+}
+
+ul {
+    padding: 0 5px;
+    margin-top: 0;
+    list-style-type: none;
+}
+
+.note {
+    color: #53657d;
+}
+
+.mt-5 {
+    margin-top: 24px;
+}
+
+.footer {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    height: 100%;
+}
+
+.footer > img {
+    height: 1cm;
+}
+
+.text-center {
+    text-align: center;
+}

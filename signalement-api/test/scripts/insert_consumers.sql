@@ -1,0 +1,1 @@
+INSERT INTO consumer (name, api_key) values ('test', '$2a$10$UQef47G7Lhns033SSGde6emWEKe/TsgtzpUXSe9BcE1gWoRciMpBW');

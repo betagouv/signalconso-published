@@ -1,0 +1,12 @@
+@import utils.FrontRoute
+
+@()(implicit frontRoute: FrontRoute)
+
+<br/>
+<br/>
+
+<div>
+  Vous pouvez désactiver les notifications depuis votre espace personnel.
+  <br/>
+  <a href="@frontRoute.dashboard.Pro.manageNotification()">Gérer les paramètres de notification</a>
+</div>

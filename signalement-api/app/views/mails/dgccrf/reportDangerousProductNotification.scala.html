@@ -1,0 +1,82 @@
+@import models.report.Report
+@import java.time.LocalDate
+@import utils.EmailAddress
+@import utils.FrontRoute
+
+@import models.report.Report
+@(report: Report)(frontRoute: FrontRoute, contactAddress: EmailAddress)
+
+@views.html.mails.layout("Nouveaux signalements") {
+
+    <div style="padding-bottom: 0.5em">
+        <div style="font-weight: bold;
+            text-align: center;
+            border-bottom: 2px solid #898989;
+            padding-bottom: 20px;
+            margin-bottom: 20px"
+        >
+            Aperçu du signalement
+        </div>
+
+        <div style="border-bottom: 2px solid #898989;
+            padding-top: 20px;
+            padding-bottom: 20px"
+        >
+            <b>Problème</b>
+            <br/>
+            @report.category
+            <br />
+            @report.subcategories.map { subcategory =>
+                @subcategory
+                <br />
+            }
+            <br />
+            <b>Description</b>
+            <br/>
+            @report.details.map { detailInputValue =>
+                @Html(detailInputValue.label) @Html(detailInputValue.value)
+                <br/>
+            }
+
+            <br />
+
+            <b>
+                Entreprise @report.companySiret.getOrElse("")
+            </b>
+            <p style="text-align: center;">
+                @views.html.fragments.address(report.companyName, report.companyAddress)
+            </p>
+            @if(report.websiteURL.websiteURL.isDefined) {
+                <b>Site web</b>
+                <p style="text-align: center;">
+                    Site internet : @report.shortURL().get
+                </p>
+            }
+            @if(report.vendor.isDefined) {
+                <b>Nom du vendeur</b>
+                <p style="text-align: center;">
+                    Nom du vendeur : @report.vendor.get
+                </p>
+            }
+        </div>
+    </div>
+
+    <p>
+        Pour consulter l'intégralité du signalement de produit dangereux, notamment les pièces jointes :
+    </p>
+    <ul>
+        <li>Vous devez suivre la procédure mentionner à l'instruction IN-2D-PIL-004</li>
+        <li>si vous possédez un compte sur SignalConso, connectez-vous sur <a href="@frontRoute.dashboard.login">@frontRoute.dashboard.login</a></li>
+        <li>sinon, vous pouvez demander la création d'un compte en envoyant un mail avec vos nom, prénom et service à l'adresse <a href="mailto:@contactAddress">@contactAddress</a></li>
+    </ul>
+
+    <p>
+        <i>L'équipe SignalConso</i>
+    </p>
+
+    <p style="font-size: 12px;
+        font-color: #8393a7;
+        padding-top: 2em">
+        Ceci est un mail automatique. Si vous ne souhaitez plus le recevoir, merci de nous l'indiquer par mail à l'adresse <a href="mailto:@contactAddress">@contactAddress</a>
+    </p>
+}

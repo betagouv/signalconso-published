@@ -1,0 +1,4 @@
+INSERT INTO public.company_accesses (company_id, user_id, level, update_date) VALUES ('eb5161ab-1a79-4c8f-adee-2d9f90298d84', '2678bc13-988a-40ff-8e25-5223750c5e01', 'admin', '2020-10-24 15:55:37.196272');
+INSERT INTO public.company_accesses (company_id, user_id, level, update_date) VALUES ('02c21df8-0b4f-4665-9cc0-64b84961d077', '2678bc13-988a-40ff-8e25-5223750c5e02', 'admin', '2020-10-24 15:55:37.196272');
+INSERT INTO public.company_accesses (company_id, user_id, level, update_date) VALUES ('02c21df8-0b4f-4665-9cc0-64b84961d077', '2678bc13-988a-40ff-8e25-5223750c5e03', 'member', '2020-10-24 15:55:37.196272');
+INSERT INTO public.company_accesses (company_id, user_id, level, update_date) VALUES ('cb1c2e6d-8357-4088-9f8c-aa3655e0f461', '2678bc13-988a-40ff-8e25-5223750c5e04', 'member', '2020-10-24 15:55:37.196272');

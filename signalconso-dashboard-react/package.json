@@ -1,0 +1,80 @@
+{
+  "name": "@signalconso/dashboard-react",
+  "version": "0.1.0",
+  "main": "build/",
+  "repository": "https://github.com/betagouv/signalconso-dashboard-react/pulls",
+  "engines": {
+    "node": "16.15.1"
+  },
+  "scripts": {
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
+    "start": "react-scripts start",
+    "startdemo": "REACT_APP_API_BASE_URL=https://demo-signalement-api.cleverapps.io react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!@mui)/\"",
+    "eject": "react-scripts eject",
+    "format": "npx prettier --write .",
+    "checkformat": "npx prettier --check ."
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "dependencies": {
+    "@emotion/react": "11.10.0",
+    "@emotion/styled": "11.10.0",
+    "@mui/lab": "5.0.0-alpha.95",
+    "@mui/material": "5.10.1",
+    "@mui/styles": "5.9.3",
+    "@sentry/react": "7.11.0",
+    "@sentry/tracing": "7.11.0",
+    "@testing-library/jest-dom": "5.16.5",
+    "@testing-library/react": "13.3.0",
+    "@testing-library/user-event": "14.4.3",
+    "@types/lodash.throttle": "^4.1.7",
+    "axios": "0.27.2",
+    "core-js": "3.24.1",
+    "date-fns": "2.29.1",
+    "date-fns-tz": "^1.3.6",
+    "jwt-decode": "3.1.2",
+    "lodash": "4.17.21",
+    "qs": "6.11.0",
+    "react": "18.2.0",
+    "react-app-polyfill": "3.0.0",
+    "react-dom": "18.2.0",
+    "react-hook-form": "7.34.2",
+    "react-router-dom": "5.3.3",
+    "react-scripts": "5.0.1",
+    "react-tagcloud": "^2.3.0",
+    "recharts": "2.1.12"
+  },
+  "devDependencies": {
+    "@types/jest": "28.1.7",
+    "@types/lodash": "4.14.183",
+    "@types/node": "18.7.6",
+    "@types/qs": "6.9.7",
+    "@types/react": "18.0.17",
+    "@types/react-dom": "18.0.6",
+    "@types/react-router": "5.1.18",
+    "@types/react-router-dom": "5.3.3",
+    "@types/react-tagcloud": "^1.1.7",
+    "@types/recharts": "1.8.23",
+    "prettier": "2.7.1",
+    "typescript": "4.7.4"
+  },
+  "packageManager": "yarn@3.2.1"
+}

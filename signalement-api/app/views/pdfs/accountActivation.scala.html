@@ -1,0 +1,114 @@
+@import utils.EmailAddress
+@import utils.FrontRoute
+@import utils.FrontRoute
+
+@(company: Company, creationDate: java.time.LocalDate, expirationDate: java.time.LocalDate, code: String)(implicit frontRoute: FrontRoute, contactAddress: EmailAddress)
+
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta name="viewport" content="width=device-width" />
+
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>Activation du compte SignalConso</title>
+
+        <link rel="stylesheet" href="@routes.Assets.versioned("css/pdf.css")">
+
+    </head>
+    <body>
+        <div style="display: block; page-break-after: always">
+            <div class="logo-marianne">
+                <img src='@routes.Assets.versioned("images/gouv.png")'/>
+            </div>
+
+            <div class="code">
+                DGCCRF_SCONSO_01
+            </div>
+
+            <div class="logo-sc">
+                <img src='@routes.Assets.versioned("images/logo-signal-conso.png")'/>
+            </div>
+
+            <div class="sender">
+                <br/>Service SignalConso
+                <br/>DGCCRF-052
+                <br/>59, boulevard Vincent Auriol
+                <br/>75703 Paris Cedex 13
+            </div>
+
+            <div class="recipient">
+                @views.html.fragments.address(Some(company.name), company.address)
+            </div>
+
+            <div class="content mt-3">
+
+                <p>
+                    Objet : réception d’un signalement à propos de votre entreprise par le biais de SignalConso
+                </p>
+
+                <p class="mt-3">
+                    Madame, Monsieur,
+                </p>
+
+                <p>
+                    La Direction Générale de la Concurrence, de la Consommation et de la Répression des Fraudes (DGCCRF) lance un nouveau service public en ligne : <i>SignalConso</i> (@frontRoute.website.url).
+                </p>
+
+                <p>
+                    Contrairement au système actuel de plainte, ce nouveau service vous propose de consulter les signalements
+                    concernant votre entreprise. Vous avez ainsi la possibilité de remédier directement aux anomalies en amont
+                    d’un éventuel contrôle ou de faire part d’éventuelles observations à l’intention du consommateur et des
+                    enquêteurs.
+                </p>
+
+                <p class="text-bold">
+                    Nous avons reçu un signalement le @creationDate.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy")) pour l’entreprise :
+                </p>
+
+                <p class="text-center text-bold">
+                    @views.html.fragments.address(Some(company.name), company.address)
+                </p>
+
+                <p class="mt-3">
+                    Pour connaitre ce signalement, rendez-vous sur @frontRoute.dashboard.activation avec :
+                </p>
+
+                <p class="text-center text-bold">
+                    Votre SIRET : @company.siret
+                    <br />
+                    Votre Code d’activation : @code
+                </p>
+
+                <p class="mt-3">
+                    Vous avez jusqu'au @expirationDate.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy")) pour activer votre espace professionnel et consulter le signalement. Passé ce délai, vous pourrez toujours le lire mais ne pourrez plus y répondre. Les enquêteurs de la DGCCRF et le consommateur seront informés que vous n'avez pas souhaité prendre connaissance du signalement.
+                </p>
+
+                <p>
+                    Ce nouveau service public est facultatif et gratuit. À travers SignalConso, notre objectif est d’établir un rapport de confiance
+                    et de transparence entre les consommateurs, les professionnels et les services de la DGCCRF.
+                </p>
+
+                <p class="standout">
+                    Si vous rencontrez des difficultés pour activer votre compte, vous pouvez nous envoyer un email
+                    à l’adresse <strong>@contactAddress</strong> en précisant votre SIRET.
+                </p>
+
+                <p>
+                    Nous restons à votre disposition pour tout renseignement complémentaire,
+                </p>
+
+                <p class="text-right mr-5">
+                    L’équipe SignalConso
+                </p>
+            </div>
+
+            <div class="page-end">
+                ###
+            </div>
+
+            <div class="footer text-center">
+                <img src='@routes.Assets.versioned("images/logo-ministere.png")'/>
+            </div>
+        </div>
+    </body>
+</html>

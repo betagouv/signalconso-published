@@ -1,0 +1,99 @@
+{
+  "name": "signalement-api",
+  "scripts": {
+    "postdeploy": "psql $DATABASE_URL < ./test/scripts/insert_users.sql && psql $DATABASE_URL < ./test/scripts/insert_companies.sql && psql $DATABASE_URL < ./test/scripts/insert_reports.sql && psql $DATABASE_URL < ./test/scripts/insert_company_accesses.sql && psql $DATABASE_URL < ./test/scripts/insert_consumers.sql"
+  },
+  "env": {
+    "APPLICATION_HOST": {
+      "required": false
+    },
+    "APPLICATION_PROTOCOL": {
+      "value": "https://"
+    },
+    "APPLICATION_SECRET": {
+      "required": true
+    },
+    "BUCKETS_REPORT": {
+      "required": true
+    },
+    "COMPANY_DATABASE_URL": {
+      "required": true
+    },
+    "EVOLUTIONS_AUTO_APPLY": {
+      "required": true
+    },
+    "EVOLUTIONS_AUTO_APPLY_DOWNS": {
+      "required": true
+    },
+    "HEROKU_APP_NAME": {
+      "required": true
+    },
+    "JAVA_TOOL_OPTIONS": {
+      "value": "-Dconfig.resource=heroku.application.conf"
+    },
+    "MAX_CONNECTIONS": {
+      "required": true
+    },
+    "MAIL_FROM": {
+      "required": true
+    },
+    "MAILER_HOST": {
+      "required": true
+    },
+    "MAILER_PORT": {
+      "required": true
+    },
+    "MAILER_USER": {
+      "required": true
+    },
+    "MAILER_PASSWORD": {
+      "required": true
+    },
+    "NUM_THREADS": {
+      "required": true
+    },
+    "SENTRY_DSN": {
+      "required": false
+    },
+    "REPORT_TASK_START_HOUR": {
+      "value": "10"
+    },
+    "REPORT_TASK_START_MINUTE": {
+      "value": "0"
+    },
+    "REPORT_TASK_START_DAY_OF_WEEK": {
+      "value": "FRIDAY"
+    },
+    "REPORT_TASK_INTERVAL": {
+      "value": "1"
+    },
+    "S3_ACCESS_KEY_ID": {
+      "required": true
+    },
+    "S3_SECRET_ACCESS_KEY": {
+      "required": true
+    },
+    "S3_ENDPOINT_URL": {
+      "required": true
+    },
+    "TMP_DIR": {
+      "required": true
+    },
+    "WEBSITE_URL": {
+      "value": "https://signalement-app-pr-416.herokuapp.com"
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  },
+  "addons": [
+    "heroku-postgresql"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/scala"
+    }
+  ]
+}

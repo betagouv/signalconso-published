@@ -1,0 +1,55 @@
+@import utils.FrontRoute
+@import models.report.Report
+@(report: Report, expirationDate: java.time.OffsetDateTime)(implicit frontRoute: FrontRoute)
+
+@views.html.mails.layout(s"Nouveau signalement") {
+    <p>
+        Bonjour,
+    </p>
+
+    <p>
+        Nous avons reçu un nouveau signalement le @report.creationDate.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy")) concernant votre entreprise :
+    </p>
+
+    <p style="text-align: center;">
+        @views.html.fragments.address(report.companyName, report.companyAddress)
+    </p>
+
+    <p><strong>Vous n’avez pas encore pris connaissance de ce signalement.</strong></p>
+
+    <p>
+        Pour le consulter, il vous suffit de vous connecter sur votre <a href="@frontRoute.dashboard.login">Espace Professionnel</a>
+        à l'aide de votre adresse e-mail et du mot de passe que vous avez créé à votre première connexion sur SignalConso.
+    </p>
+
+    <p>
+        <em>Si vous avez oublié votre mot de passe, vous pouvez le réinitialiser directement depuis la page de connexion.</em>
+    </p>
+
+    <p>
+        Vous avez jusqu’au <strong>@expirationDate.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy"))</strong>
+        pour répondre au signalement. Passé ce délai, vous pourrez toujours le lire mais vous ne pourrez plus y répondre.
+    </p>
+
+    <p>
+        Pour apporter une réponse, allez sur votre Espace Professionnel. Dans le détail du signalement, cliquez sur le bouton “Apporter une réponse à ce signalement”.
+    </p>
+
+    <p>
+        Vous pouvez également indiquer si vous estimez que le signalement est infondé ou ne concerne pas votre entreprise.
+    </p>
+
+    <p>
+        Ce nouveau service public est facultatif et gratuit.
+        À travers SignalConso, notre objectif est d’établir un rapport de confiance et de
+        transparence entre les consommateurs, les professionnels et les services de la DGCCRF.
+    </p>
+
+    <p>Cordialement,</p>
+
+    <p>
+        <i>L'équipe SignalConso</i>
+    </p>
+
+    @views.html.fragments.linkNotificationsManager()
+}

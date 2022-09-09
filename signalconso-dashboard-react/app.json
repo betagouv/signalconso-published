@@ -1,0 +1,20 @@
+{
+  "name": "signalconso-dashboard",
+  "scripts": {},
+  "env": {
+    "API_BASE_URL": {
+      "value": "https://signalement-api.herokuapp.com"
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  },
+  "addons": [],
+  "buildpacks": [
+    {
+      "url": "mars/create-react-app"
+    }
+  ]
+}

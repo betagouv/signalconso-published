@@ -1,0 +1,251 @@
+@import utils.EmailAddress
+@import models.report.ReportStatus
+@import utils.FrontRoute
+@import utils.Country
+@import models.report._
+@import models.report.ReportTag
+@(report: Report, files: List[ReportFile] = Nil)(implicit frontRoute: FrontRoute)
+
+
+@views.html.mails.layout("Votre signalement") {
+
+    <p>
+        Bonjour @report.firstName @report.lastName,
+    </p>
+    @report.status match {
+        case ReportStatus.LanceurAlerte => {
+            <p>
+                <b>Votre signalement a bien été enregistré dans SignalConso.</b>
+            </p>
+            <p>
+                Vous avez indiqué être employé(e) de l'entreprise que vous avez signalée.
+            </p>
+            <p>
+                Afin de garantir la sécurité de votre emploi, votre signalement ne sera pas envoyé à l'entreprise.
+            </p>
+            <p>
+                <b>Par contre les enquêteurs de la répression des fraudes seront informés de votre signalement.</b>
+            </p>
+        }
+        case ReportStatus.NA if report.companyAddress.country.isDefined => {
+            <p>
+                <b>Votre signalement a bien été enregistré dans SignalConso.</b>
+            </p>
+            <p>
+                Vous avez indiqué que l’entreprise est une entreprise étrangère (@report.companyAddress.country.get.name).
+            </p>
+            <p>
+                Comme précisé sur notre site, votre signalement ne sera pas transmis à cette entreprise.
+            </p>
+            @report.companyAddress.country match {
+                case Some(country) if Country.countries.filter(_.european).contains(country) => {
+                    <p>
+                        Nous vous invitons à faire votre signalement directement auprès du Centre Européen des Consommateurs. Il vous apportera une assistance pour régler votre problème.
+                        <a href="https://www.europe-consommateurs.eu/fr/une-question-une-reclamation">https://www.europe-consommateurs.eu/fr/une-question-une-reclamation</a>
+                    </p>
+                }
+                case Some(country) if country == Country.Andorre => {
+                    <p>
+                        Nous vous invitons à faire votre signalement directement auprès du service du commerce et de la consommation d’Andorre :
+                        <a href="https://www.comerc.ad/reclamacions/?id=fr">https://www.comerc.ad/reclamacions/?id=fr</a>
+                    </p>
+                }
+                case Some(country) if Country.countries.filter(_.transfer).contains(country) => {
+                    <p>
+                        Par contre les enquêteurs de la répression des fraudes vont le transférer aux autorités compétentes de ce pays.
+                    </p>
+                }
+                case _ => {
+                    <p>
+                        Nous vous invitons à faire votre signalement auprès d'econsumer.gov afin d’aider les autorités internationales à lutter contre la fraude.
+                        <a href="https://www.econsumer.gov/fr">https://www.econsumer.gov/fr</a>
+                    </p>
+                }
+            }
+            @views.html.fragments.chargeBack(report)
+        }
+        case ReportStatus.NA if report.tags.contains(ReportTag.ReponseConso) => {
+            <p>
+                <b>Votre question a bien été enregistré dans SignalConso.</b>
+            </p>
+            <p>
+                Un répondant reviendra vers vous si nécessaire pour des compléments éventuels. Puis vous recevrez, dans les plus brefs délais
+                une réponse définitive ou vous serez réorientée vers le service compétent.
+            </p>
+        }
+        case ReportStatus.NA => {
+            <p>
+                <b>Votre signalement a bien été enregistré dans SignalConso.</b>
+            </p>
+            <p>
+                Comme précisé sur notre site, votre signalement ne sera pas transmis à cette entreprise.
+            </p>
+            <p>
+                Dans tous les cas les enquêteurs de la répression des fraudes en seront informés.
+                Il est possible qu'ils vous contactent pour avoir des informations complémentaires.
+            </p>
+        }
+        case _ if report.isContractualDispute() && report.companyId.isDefined => {
+            <p>
+                Vous avez signalé un problème individuel (litige)
+                    @report.companyName.map(name => s"avec l’entreprise $name").getOrElse(report.websiteURL.websiteURL.map(url => s"avec le site internet $url").getOrElse(""))
+                sur SignalConso.
+            </p>
+            <p>
+                Pour augmenter vos chances de trouver une solution ou obtenir réparation, nous vous conseillons de commencer des démarches individuelles en parallèle.
+            </p>
+            <p>
+                Vous trouverez en pièce jointe votre signalement au format PDF qui vous sera utile.
+            </p>
+            <p style="text-align: center; padding: 20px">
+                <a href="@frontRoute.website.litige" class="btn">
+                    Commencer mes démarches
+                </a>
+            </p>
+            @views.html.fragments.chargeBack(report)
+        }
+        case _ if report.companyId.isDefined => {
+            <p>
+                <b>Votre signalement a bien été enregistré dans SignalConso.</b>
+            </p>
+            <p>
+                Que va-t-il se passer ?
+            </p>
+            <p>
+                <b>L'entreprise va être informée de votre signalement pour qu'elle puisse corriger le problème.</b>
+            </p>
+            <p>
+                Dès que l'entreprise aura lu le signalement, vous recevrez un email.
+            </p>
+            <p>
+                <b>Attention : En raison des circonstances exceptionnelles liées au COVID-19, le délai de transmission des signalements aux entreprises
+                    peut être fortement rallongé.</b>
+                <br/>Les entreprises ont un délai de deux mois pour créer leur compte et consulter votre signalement.
+            </p>
+            <p>
+                Si, malgré nos relances, l'entreprise ne souhaite pas consulter votre signalement, vous serez informé(e) de son refus.
+            </p>
+            <p>
+                Que l'entreprise lise ou non votre signalement,
+                <b>les enquêteurs de la répression des fraudes seront également informés de votre signalement.</b>
+            </p>
+        }
+        case _ => {
+            <p>
+                <b>Votre signalement a bien été enregistré dans SignalConso.</b>
+            </p>
+            <p>
+                Comme précisé sur notre site, votre signalement ne sera pas transmis à l'entreprise,
+                sauf si cette dernière est française et identifiable par l'équipe de SignalConso.
+            </p>
+            <p>
+                Dans tous les cas les enquêteurs de la répression des fraudes en seront informés.
+            </p>
+        }
+    }
+
+    @if(report.tags.contains(ReportTag.CompagnieAerienne)) {
+    <p>
+        Vous souhaitez connaître vos droits sur l’indemnisation liée à une annulation, un retard, un refus d’embarquement ou un déclassement, consultez le site :
+        <a href="https://droits-passagers-aeriens.aviation-civile.gouv.fr/">Direction générale de l'Aviation civile</a>
+    </p>
+    }
+
+    @if(report.tags.contains(ReportTag.ProduitDangereux)) {
+        <p><b>Campagnes de retrait/rappel en cours de produits alimentaires :</b></p>
+
+        <b>Il est demandé aux personnes détenant ces produits de ne pas les consommer et de les jeter immédiatement</b>
+        (prendre préalablement des photos de l’emballage comportant les références du produit : date limite de consommation, numéro de lot, code barre, …).
+
+        Les personnes qui auraient consommé ces produits et qui présenteraient des symptômes dont invitées à consulter leur médecin traitant ou à se rendre aux urgences. En cas d’absence de symptômes, il n’est pas nécessaire de s’inquiéter.
+    }
+
+    <p>À bientôt sur SignalConso !</p>
+
+    <p>
+        <i>L'équipe SignalConso</i>
+    </p>
+
+    @if(!report.isContractualDispute()) {
+        <div style="padding-bottom: 0.5em">
+            <div style="font-weight: bold;
+                text-align: center;
+                border-top: 1px solid #D3D3D3;
+                border-bottom: 1px solid #D3D3D3;
+                padding: 10px 0;
+                margin: 10px">Détail du signalement</div>
+
+            <b>Problème</b>
+            <br/>
+            @report.category
+            <br />
+            @report.subcategories.map { subcategory =>
+                @subcategory
+                <br />
+            }
+
+            <br />
+            <b>Description</b>
+            <br/>
+            @report.details.map { detailInputValue =>
+                @Html(detailInputValue.label) @Html(detailInputValue.value)
+                <br/>
+            }
+
+            @if(files.length > 0) {
+                <br/>
+                Pièces jointes :
+                <ul>
+                @files.map { file =>
+                    <li>
+                        @file.filename
+                    </li>
+                }
+                </ul>
+            } else {
+                <br />
+            }
+
+            <b>Entreprise</b>
+            <br/>
+            @if(report.companyAddress.isDefined) {
+                @views.html.fragments.address(report.companyName, report.companyAddress)
+                <br/>
+            }
+            @if(report.websiteURL.websiteURL.isDefined) {
+                Site internet : @report.shortURL().get
+                <br/>
+            }
+            @if(report.vendor.isDefined) {
+                Nom du vendeur : @report.vendor.get
+                <br/>
+            }
+
+            <br />
+            <b>Consommateur</b>
+            <br/>
+            Nom : @report.lastName
+            <br />
+            Prénom : @report.firstName
+            <br />
+            Email : @report.email
+            <br/>
+            @if(report.isTransmittableToPro()) {
+                Accord pour contact : @if(report.contactAgreement) {oui} else {non}
+                <br/>
+            }
+        </div>
+    }
+
+    @if(report.needWorkflowAttachment()) {
+        <div style="padding-bottom: 0.5em">
+            <div style="font-weight: bold;
+                text-align: center;
+                border-top: 1px solid #D3D3D3;
+                border-bottom: 1px solid #D3D3D3;
+                padding: 10px 0;
+                margin: 10px">Comprendre SignalConso</div>
+            <img src="cid:schemaSignalConso-Etape2" style="max-width: 100%"/>
+        </div>
+    }
+}

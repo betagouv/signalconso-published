@@ -1,0 +1,9 @@
+# --- !Ups
+
+ALTER TABLE SIGNALEMENT ALTER COLUMN precision_anomalie DROP NOT NULL;
+
+ALTER TABLE SIGNALEMENT ADD COLUMN siren_etablissement VARCHAR;
+
+# --- !Downs
+
+ALTER TABLE SIGNALEMENT DROP siren_etablissement;

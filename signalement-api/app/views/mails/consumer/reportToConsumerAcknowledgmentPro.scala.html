@@ -1,0 +1,80 @@
+@import models.report.ReportResponse
+@import models.report.Report
+@import java.net.URI
+@import models.report.Report
+@import models.report.ReportResponse
+@import models.report.review.ResponseEvaluation
+@(report: Report, reportResponse: ReportResponse, reviewUrl: (ResponseEvaluation) => URI)
+
+@views.html.mails.layout("L'entreprise a répondu à votre signalement, donnez nous votre avis sur sa réponse") {
+    <p>
+        Bonjour @report.firstName @report.lastName,
+    </p>
+
+    <p>
+        Vous avez fait un signalement le @report.creationDate.format(java.time.format.DateTimeFormatter.ofPattern("dd/MM/yyyy")) concernant une entreprise :
+    </p>
+    @if(report.companySiret.isDefined) {
+        <p style="text-align: center;">
+            SIRET : <b>@report.companySiret.get</b>
+        </p>
+    }
+    <p style="text-align: center;">
+    @views.html.fragments.address(report.companyName, report.companyAddress)
+    </p>
+
+    <p>
+        <b>L'entreprise a répondu à votre signalement.</b>
+    </p>
+
+    <p>Voici sa réponse :</p>
+
+    <p>
+        <i>"@reportResponse.consumerDetails"</i>
+    </p>
+
+    <p>
+        <b>Êtes vous satisfait de cette réponse ?</b>
+        <div style="display: flex; margin: 50px ">
+            <a href="@reviewUrl(ResponseEvaluation.Positive)" target="_blank" style="padding-right:20px"><img src='cid:happy' alt="positif" width="75" height="75"></a>
+            <a href="@reviewUrl(ResponseEvaluation.Neutral)" target="_blank" style="padding-right:20px; padding-left:20px"><img src='cid:neutral' alt="neutre" width="75" height="75"/></a>
+            <a href="@reviewUrl(ResponseEvaluation.Negative)" target="_blank" style="padding-left:20px"><img src='cid:sad' alt="négatif" width="75" height="75" /></a>
+        </div>
+    </p>
+
+    <p>
+        <b>Sachez que, quelle que soit la réponse de l'entreprise, les enquêteurs de la répression des fraudes peuvent décider faire un contrôle,
+            en fonction des informations que vous avez transmises.</b>
+    </p>
+
+    <p>
+        <b>Vous souhaitez attendre de voir si la situation s'améliore ?</b>
+        <br/>
+        N'hésitez pas à refaire un nouveau signalement si vous constatez que le problème n'a pas été corrigé.
+        La répression des fraudes sera ainsi mieux au courant de la situation.
+    </p>
+
+    <p>
+        Si SignalConso vous donne satisfaction, n'hésitez pas à nous encourager par un post sur <a href="https://twitter.com/signalconso" target="_blank">
+        Twitter</a>, <a href="https://www.facebook.com/SignalConso/" target="_blank">Facebook</a>
+        et <a href="https://www.plus.transformation.gouv.fr/" target="_blank">Services Publics +</a>.
+    </p>
+    <p>Votre contribution aide d'autres consommateurs et nous est vraiment indispensable pour nous développer encore et encore !</p>
+    <p>N'hésitez également pas à parler de SignalConso autour de vous et à encourager vos connaissances à en parler à leur tour autour d'elles ! Merci !</p>
+
+    <p>
+        <i>L'équipe SignalConso</i>
+    </p>
+
+    <div style="padding-bottom: 0.5em">
+        <div style="font-weight: bold;
+            text-align: center;
+            border-top: 1px solid #D3D3D3;
+            border-bottom: 1px solid #D3D3D3;
+            padding: 10px 0;
+            margin: 10px">
+            Comprendre SignalConso
+        </div>
+        <img src="cid:schemaSignalConso-Etape4" style="max-width: 100%"/>
+    </div>
+}

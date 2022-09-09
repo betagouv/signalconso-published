@@ -1,0 +1,87 @@
+     Date de l'extraction      
+-------------------------------
+ 2021-03-01 14:21:21.251562+00
+(1 row)
+
+ Nb utilisateurs DGCCRF 
+------------------------
+                   1090
+(1 row)
+
+ Nb utilisateurs DGCCRF connectés dans les 60 derniers jours 
+-------------------------------------------------------------
+                                                         393
+(1 row)
+
+ Nb abonnements DGCCRF 
+-----------------------
+                   132
+(1 row)
+
+ Nb d''entreprises controlées dans les 60 derniers jours 
+---------------------------------------------------------
+                                                      12
+(1 row)
+
+ % entreprises signalées avec un compte activé 
+-----------------------------------------------
+                                         62.92
+(1 row)
+
+ Signalements des 60 derniers jours : % lus 
+--------------------------------------------
+                                      56.32
+(1 row)
+
+ Signalements des 60 derniers jours : % avec une réponse 
+---------------------------------------------------------
+                                                   45.12
+(1 row)
+
+ Signalements des 60 derniers jours : temps de lecture moyen 
+-------------------------------------------------------------
+                                                        2.50
+(1 row)
+
+ Nb réponses des 60 derniers jours | % promesse d'action | % infondé | % mal attribué 
+-----------------------------------+---------------------+-----------+----------------
+                              8697 |               71.59 |     22.75 |           5.66
+(1 row)
+
+ Nb avis des 60 derniers jours sur la réponse Pro | % avis positif | % avis négatif 
+--------------------------------------------------+----------------+----------------
+                                             3100 |          18.42 |          81.58
+(1 row)
+
+ Nb avis des 60 derniers jours sur les pages d'info | % avis positif | % avis négatif 
+----------------------------------------------------+----------------+----------------
+                                               1450 |          38.76 |          61.24
+(1 row)
+
+                     Catégorie                      | Nb avis des 200 derniers jours sur les pages d'info | % avis positif | % avis négatif 
+----------------------------------------------------+-----------------------------------------------------+----------------+----------------
+ Téléphonie / Fournisseur d'accès internet / médias |                                                1925 |          44.52 |          55.48
+ Travaux / Rénovation                               |                                                  90 |          32.22 |          67.78
+ Achat / Magasin                                    |                                                 171 |          26.32 |          73.68
+ Téléphonie / Internet / médias                     |                                                  93 |          52.69 |          47.31
+ Voyage / Loisirs                                   |                                                 105 |          22.86 |          77.14
+ Internet (hors achats)                             |                                                 535 |          35.51 |          64.49
+ Café / Restaurant                                  |                                                  48 |          35.42 |          64.58
+ COVID-19 (coronavirus)                             |                                                 250 |          52.80 |          47.20
+ Banque / Assurance / Mutuelle                      |                                                   4 |          50.00 |          50.00
+ Travail au noir                                    |                                                  13 |          92.31 |           7.69
+ Services aux particuliers                          |                                                   1 |         100.00 |           0.00
+ Intoxication alimentaire                           |                                                  33 |          57.58 |          42.42
+ Eau / Gaz / Electricité                            |                                                  27 |           7.41 |          92.59
+ Démarches administratives                          |                                                  17 |          23.53 |          76.47
+ Immobilier                                         |                                                  14 |          28.57 |          71.43
+ Secteur de la santé                                |                                                  41 |          41.46 |          58.54
+ Alerte corps étranger                              |                                                   7 |          42.86 |          57.14
+ Achat sur internet                                 |                                                 239 |          13.81 |          86.19
+(18 rows)
+
+ Nb signalements des 30 derniers jours | % signalement internet | % sign entreprise ident par conso parmi les sign internets | % sign entreprise ident par admin parmi les sign internets | % sign entreprise ident par le conso parmi les sign internets | % sign entreprise non ident etranger parmi les sign internets 
+---------------------------------------+------------------------+------------------------------------------------------------+------------------------------------------------------------+---------------------------------------------------------------+---------------------------------------------------------------
+                                  9174 |                  68.49 |                                                      67.40 |                                                       0.00 |                                                         32.60 |                                                          9.80
+(1 row)
+

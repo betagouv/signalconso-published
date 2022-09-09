@@ -1,0 +1,28 @@
+@import java.net.URI
+@import utils.FrontRoute
+@(invitationUrl: URI, company: Company, invitedBy: Option[User])
+
+@views.html.mails.layout(s"Rejoignez l'entreprise @$company.name sur SignalConso") {
+    <p>
+        Bonjour,
+    </p>
+
+    <p>
+    @if(invitedBy.isDefined) {
+        @invitedBy.map(_.fullName) vous invite à rejoindre l'entreprise @company.name sur SignalConso.
+    } else {
+        Vous avez demandé à activer le compte de l'entreprise @company.name sur SignalConso.
+    }
+        Afin de procéder à l'activation de votre compte, veuillez suivre le lien sécurisé ci-dessous.
+    </p>
+
+    <p style="text-align: center;">
+        <a href="@invitationUrl">@invitationUrl</a>
+    </p>
+
+    <p>Cordialement,</p>
+
+    <p>
+        <i>L'équipe SignalConso</i>
+    </p>
+}

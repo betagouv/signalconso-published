@@ -1,0 +1,42 @@
+@(title: String)(content: Html)
+
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>@title</title>
+
+        <style>
+            .btn {
+                color: #fff !important;
+                background-color: #407e99;
+                border-color: #407e99;
+                font-size: 20px;
+                font-weight: bold;
+                line-height: 25px;
+                border-radius: 34px;
+                padding: 13px 29px;
+                text-decoration: none;
+                box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+            }
+            .btn:hover {
+                color: #fff !important;
+                background-color: #35687e;
+                border-color: #316075;
+            }
+        </style>
+    </head>
+    <body>
+        <div style="margin: 0 auto; max-width: 650px; width: 100%; padding: 1em; font-size: 16px">
+            <div style="display: inline-block; text-align: left; margin: 30px auto; width: 49%">
+                <img src="cid:logo-marianne" style="max-width: 400px; vertical-align: middle"/>
+                <br>
+            </div>
+            <div style="display: inline-block; text-align: right; margin: 30px auto; width: 49%">
+                <img src="cid:logo-signalconso" style="max-width: 400px; vertical-align: middle"/>
+                <br>
+            </div>
+            @content
+        </div>
+    </body>
+</html>

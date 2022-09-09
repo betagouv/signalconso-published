@@ -1,0 +1,25 @@
+@import utils.EmailAddress
+@import utils.FrontRoute
+@import java.util.UUID
+
+@(email: EmailAddress, confirmationCode: String)(implicit frontRoute: FrontRoute, contactAddress: EmailAddress)
+
+@views.html.mails.layout("Validation de l'adresse email") {
+    <p>
+        Bonjour,
+    </p>
+    <p>
+        Votre code d'activation SignalConso est:
+        <b><span style="color: rgba(0, 0, 0, 54)">SC-</span>@confirmationCode</b>
+    </p>
+
+    <p>
+        <i>L'équipe SignalConso</i>
+    </p>
+
+    <hr />
+    Cet e-mail vous a été envoyé lors du dépot d'un signalement avec cette cette adresse e-mail sur le site @frontRoute.website.url
+    <ul>
+        <li>Si vous n'avez pas effectué cette demande, merci de ne pas tenir compte de cet e-mail.</li>
+    </ul>
+}

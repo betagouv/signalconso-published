@@ -1,0 +1,59 @@
+# Scala CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/sample-config/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+    # specify the version you desire here
+    - image: circleci/openjdk:11-jdk
+      environment:
+        # PG client params (test conf fetch them from env)
+        TEST_PGUSER: signalconso
+        TEST_PGHOST: localhost
+        TEST_PGDATABASE: test_signalconso
+        TEST_COMPANY_PGUSER: signalconso
+        TEST_COMPANY_PGHOST: localhost
+        TEST_COMPANY_PGDATABASE: test_company
+        # Customize the JVM maximum heap limit
+        JVM_OPTS: -Xmx3200m
+        TERM: dumb
+
+    # See https://circleci.com/docs/2.0/postgres-config/
+    - image: circleci/postgres:10.6-ram
+      environment:
+        POSTGRES_USER: signalconso
+        POSTGRES_DB: test_signalconso
+
+    working_directory: ~/repo
+
+    steps:
+    - checkout
+
+    # Download and cache dependencies
+    - restore_cache:
+        keys:
+        - v2-dependencies--{{ checksum "build.sbt" }}
+        # fallback to using the latest cache if no exact match is found
+        - v2-dependencies--
+
+    - run: sudo apt-get update
+    - run: sudo apt-get install postgresql-client
+    - run: whoami
+    - run: psql -d postgresql://signalconso@localhost/test_signalconso -p 5432 -c "create database test_company;"
+
+    - save_cache:
+        paths:
+        - ~/.ivy2
+        - ~/.m2
+        - ~/.sbt
+        - target/resolution-cache
+        - target/streams
+        - project/target/resolution-cache
+        - project/target/streams
+        key: v2-dependencies--{{ checksum "build.sbt" }}
+
+    - run: cat /dev/null | sbt scalafmtCheck scalafmtSbtCheck
+    # run tests!
+    - run: cat /dev/null | sbt test

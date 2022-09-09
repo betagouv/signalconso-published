@@ -1,0 +1,24 @@
+@import utils.FrontRoute
+@import java.net.URI
+@(websiteUrl: URI, company: Company, invitedBy: Option[User])(implicit frontRoute: FrontRoute)
+
+@views.html.mails.layout(s"Vous avez maintenant accès à l'entreprise @$company.name sur SignalConso") {
+    <p>
+        Bonjour,
+    </p>
+
+    <p>
+    @if(invitedBy.isDefined) {
+        @invitedBy.map(_.fullName) vous a donné accès à l'entreprise @company.name sur SignalConso.
+    } else {
+        Votre compte a été rattaché à l'entreprise @company.name sur SignalConso.
+    }
+        Vous pouvez dès à présent <a href="@frontRoute.website.url">vous connecter</a> et accéder à cette entreprise avec votre compte pré-existant.
+    </p>
+
+    <p>Cordialement,</p>
+
+    <p>
+        <i>L'équipe SignalConso</i>
+    </p>
+}
